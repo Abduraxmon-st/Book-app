@@ -13,17 +13,24 @@ const SEARCH_APIS = [
   SEARCH_BOOKS_3,
 ];
 
-export const useGetSearchBooks = ({ query }: { query: string }) => {
+export const useGetNewBooks = () => {
+  const currentYear = new Date().getFullYear();
+
   return useQuery({
-    queryKey: ["search-books", query],
-    enabled: query.length > 0,
+    queryKey: ["new-books"],
+    staleTime: 1000 * 60 * 60, // 1 hour
     queryFn: async () => {
       let lastError: unknown;
 
       for (const api of SEARCH_APIS) {
         try {
-          const res = await axios(`${api}&query=${query}&offset=0`);
-          return res.data.books;
+          const res = await axios(`${api}&earliest-publish-year=${currentYear}&number=10&offset=0`);
+          if (res.data?.available > 0) {
+            return res.data.books;
+          } else {
+            const res = await axios(`${api}&earliest-publish-year=${currentYear - 1}&number=10&offset=0`);
+            return res.data.books;
+          }
         } catch (error) {
           lastError = error;
 
