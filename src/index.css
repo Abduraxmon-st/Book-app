@@ -16,6 +16,12 @@
   }
 }
 
+@layer components {
+  .title {
+    @apply font-medium text-xl text-mainColor mb-4;
+  }
+}
+
 .headerCircleContainer {
   position: relative;
   overflow: hidden;

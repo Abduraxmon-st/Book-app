@@ -13,17 +13,19 @@ const SEARCH_APIS = [
   SEARCH_BOOKS_3,
 ];
 
-export const useGetSearchBooks = ({ query }: { query: string }) => {
+export const useGetMightLikeBooks = () => {
+  const currentYear = new Date().getFullYear();
+  const genre = "nonfiction";
   return useQuery({
-    queryKey: ["search-books", query],
+    queryKey: ["might-like-books"],
+    staleTime: 1000 * 60 * 60, // 1 hour
     retry: 1,
-    enabled: query.length > 0,
     queryFn: async () => {
       // let lastError: unknown;
 
       for (const api of SEARCH_APIS) {
         try {
-          const res = await axios(`${api}&query=${query}&offset=0`);
+          const res = await axios(`${api}&genres=${genre}&earliest-publish-year=${currentYear - 1}&latest-publish-year=${currentYear}&min-rating=0.8&number=30&offset=0`);
           return res.data.books;
         } catch (error) {
           // lastError = error;
@@ -45,9 +47,9 @@ export const useGetSearchBooks = ({ query }: { query: string }) => {
       //     ? lastError.response?.data?.message || "Error"
       //     : "Error"
       // );
+      return books
 
       // throw lastError;
-      return books
     },
   });
 };

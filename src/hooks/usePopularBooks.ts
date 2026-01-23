@@ -13,17 +13,17 @@ const SEARCH_APIS = [
   SEARCH_BOOKS_3,
 ];
 
-export const useGetSearchBooks = ({ query }: { query: string }) => {
+export const useGetPopularBooks = () => {
   return useQuery({
-    queryKey: ["search-books", query],
+    queryKey: ["popular-books"],
+    staleTime: 1000 * 60 * 60, // 1 hour
     retry: 1,
-    enabled: query.length > 0,
     queryFn: async () => {
       // let lastError: unknown;
 
       for (const api of SEARCH_APIS) {
         try {
-          const res = await axios(`${api}&query=${query}&offset=0`);
+          const res = await axios(`${api}&min-rating=0.8&number=30&offset=0`);
           return res.data.books;
         } catch (error) {
           // lastError = error;

@@ -1,7 +1,7 @@
 import { Autoplay } from 'swiper/modules';
 import { MainCard } from '../card'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useGetNewBooks } from '../../hooks/useNewBooks';
+import { useGetNewBooks } from '../../hooks';
 import type { Book } from '../../types';
 
 export const HeaderCarousel = () => {
@@ -33,7 +33,7 @@ export const HeaderCarousel = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div >
+      </div>
     </div>
   )
 }

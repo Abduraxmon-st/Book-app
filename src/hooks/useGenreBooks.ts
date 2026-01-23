@@ -5,6 +5,7 @@ import {
   SEARCH_BOOKS_2,
   SEARCH_BOOKS_3,
 } from "../constants";
+import { getRandomGenre } from "./useRandomGenre";
 import { books } from "../data/books";
 
 const SEARCH_APIS = [
@@ -13,26 +14,30 @@ const SEARCH_APIS = [
   SEARCH_BOOKS_3,
 ];
 
-export const useGetSearchBooks = ({ query }: { query: string }) => {
+export const useGetGenreBooks = (genre: string, setGenre: (genre: string) => void) => {
+
   return useQuery({
-    queryKey: ["search-books", query],
+    queryKey: ["genre-books", genre],
+    staleTime: 1000 * 60 * 60, // 1 hour
     retry: 1,
-    enabled: query.length > 0,
     queryFn: async () => {
       // let lastError: unknown;
 
       for (const api of SEARCH_APIS) {
         try {
-          const res = await axios(`${api}&query=${query}&offset=0`);
+          const res = await axios(`${api}&genres=${genre}&min-rating=0.7&number=30&offset=0`);
           return res.data.books;
         } catch (error) {
           // lastError = error;
 
-          // not 402 error ? break;
           if (
             !(error instanceof AxiosError) ||
-            error.response?.data?.code !== 402
+            error.response?.data?.code === 400
           ) {
+            const genreMore = getRandomGenre(); // Example genre, this could be passed as a prop
+            setGenre(genreMore);
+          } else if (!(error instanceof AxiosError) ||
+            error.response?.data?.code !== 402) {
             break;
           }
           // 402 error ? try next API
@@ -46,8 +51,8 @@ export const useGetSearchBooks = ({ query }: { query: string }) => {
       //     : "Error"
       // );
 
-      // throw lastError;
       return books
+      // throw lastError;
     },
   });
 };

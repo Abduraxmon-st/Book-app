@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
 import {
   SEARCH_BOOKS,
   SEARCH_BOOKS_2,
   SEARCH_BOOKS_3,
 } from "../constants";
+import { books } from "../data/books";
 
 const SEARCH_APIS = [
   SEARCH_BOOKS,
@@ -18,9 +18,10 @@ export const useGetNewBooks = () => {
 
   return useQuery({
     queryKey: ["new-books"],
+    retry: 1,
     staleTime: 1000 * 60 * 60, // 1 hour
     queryFn: async () => {
-      let lastError: unknown;
+      // let lastError: unknown;
 
       for (const api of SEARCH_APIS) {
         try {
@@ -32,7 +33,7 @@ export const useGetNewBooks = () => {
             return res.data.books;
           }
         } catch (error) {
-          lastError = error;
+          // lastError = error;
 
           // not 402 error ? break;
           if (
@@ -46,13 +47,15 @@ export const useGetNewBooks = () => {
       }
 
       // all APIs failed
-      toast.error(
-        lastError instanceof AxiosError
-          ? lastError.response?.data?.message || "Error"
-          : "Error"
-      );
+      // toast.error(
+      //   lastError instanceof AxiosError
+      //     ? lastError.response?.data?.message || "Error"
+      //     : "Error"
+      // );
 
-      throw lastError;
+      // throw lastError;
+            return books
+      
     },
   });
 };

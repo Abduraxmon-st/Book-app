@@ -1,1 +1,6 @@
 export * from "./useSearchBooks"
+export * from "./useNewBooks"
+export * from "./useFormatRating"
+export * from "./useMightLikeBooks"
+export * from "./usePopularBooks"
+export * from "./useGenreBooks"
