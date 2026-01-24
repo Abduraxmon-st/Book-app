@@ -90,3 +90,26 @@ export const books = [
     },
   ],
 ];
+
+export const book = {
+  "id": 16384516,
+  "title": "Harry Potter and the Goblet of Fire",
+  "image": "https://covers.openlibrary.org/b/id/12775900-M.jpg",
+  "identifiers": {
+    "open_library_id": "OL82577W",
+    "isbn_10": "0439139597",
+    "isbn_13": "0439139597"
+  },
+  "authors": [
+    {
+      "id": 14136020,
+      "name": "J. K. Rowling"
+    }
+  ],
+  "publish_date": 2000.0,
+  "number_of_pages": 734.0,
+  "description": "Celebrate 20 years of Harry Potter magic! \r\n\r\nThe Triwizard Tournament is to be held at Hogwarts. Only wizards who are over seventeen are allowed to enter – but that doesn't stop Harry dreaming that he will win the competition. Then at Hallowe'en, when the Goblet of Fire makes its selection, Harry is amazed to find his name is one of those that the magical cup picks out. He will face death-defying tasks, dragons and Dark wizards, but with the help of his best friends, Ron and Hermione, he might just make it through – alive!\r\n\r\nThese new editions of the classic and internationally bestselling, multi-award-winning series feature instantly pick-up-able new jackets by Jonny Duddle, with huge child appeal, to bring Harry Potter to the next generation of readers. It's time to PASS THE MAGIC ON",
+  "rating": {
+    "average": 0.912
+  }
+}
