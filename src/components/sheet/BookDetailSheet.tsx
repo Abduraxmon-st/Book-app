@@ -10,6 +10,8 @@ export const BookDetailSheet = () => {
   const [offsetY, setOffsetY] = useState(0);
   const startY = useRef<number | null>(null);
   const isDragging = useRef(false);
+  const [isAnimating, setIsAnimating] = useState(true);
+
   // close outside
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -34,8 +36,7 @@ export const BookDetailSheet = () => {
   const handleStart = (y: number) => {
     startY.current = y;
     isDragging.current = true;
-
-    document.body.style.overflow = "hidden";
+    setIsAnimating(false)
   };
 
   // Touching
@@ -52,6 +53,7 @@ export const BookDetailSheet = () => {
 
   // End Touch 
   const handleEnd = () => {
+    setIsAnimating(true)
     if (offsetY > 200) {
       resetBookId(); // ⬇️ pastga swipe → yopiladi
     }
@@ -59,7 +61,6 @@ export const BookDetailSheet = () => {
     setOffsetY(0);
     isDragging.current = false;
     startY.current = null;
-    document.body.style.overflow = "";
   };
 
 
@@ -71,16 +72,20 @@ export const BookDetailSheet = () => {
   return (
     <div ref={wrapperRef}
       style={{ transform: `translate(0, ${offsetY}px)` }}
-      onTouchStart={(e) => handleStart(e.touches[0].clientY)}
-      onTouchMove={(e) => handleMove(e.touches[0].clientY)}
-      onTouchEnd={handleEnd}
-      className={`touch-none fixed left-0 top-0 inset-0 bg-white text-mainColor z-50 p-4 ${!!bookId ? 'translate-y-18' : 'translate-y-full'} transition-transform duration-300 ease-in-out rounded-4xl shadow-[0px_-4px_31px_0px_#00000070]`}>
+      className={`fixed left-0 top-0 inset-0 bg-white text-mainColor z-50 p-4 pt-0! ${!!bookId ? 'translate-y-18' : 'translate-y-full'} ${isAnimating ? "transition-transform duration-300 ease-out" : ""} ease-in-out rounded-4xl shadow-[0px_-4px_31px_0px_#00000070]`}>
       {/* <button onClick={() => resetBookId()}
         className="p-1.5 bg-mainColor text-white rounded-full">
         <ArrowRightIcon className="size-7 rotate-180" />
       </button> */}
-      <div className="w-15 h-2 mx-auto bg-descColor/50 rounded-full" />
-      <img src={bookImage} alt={bookDet?.title} className="w-[80%] mx-auto mt-6 rounded-2xl" />
+      <div
+        onTouchStart={(e) => handleStart(e.touches[0].clientY)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientY)}
+        onTouchEnd={handleEnd}
+        className="py-4 flex justify-center">
+        <div className="w-15 h-2 bg-descColor/50 rounded-full"></div>
+      </div>
+      <img src={bookImage} alt={bookDet?.title} className="w-[80%] mx-auto mt-2 rounded-2xl" />
+      <div className="h-screen"></div>
     </div>
   )
 }
