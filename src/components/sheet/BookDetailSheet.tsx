@@ -14,6 +14,7 @@ export const BookDetailSheet = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const authorsLength = book?.authors?.length
+  const formattedRating = formatRating(book?.rating?.average || 0)
   // close outside
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -105,16 +106,27 @@ export const BookDetailSheet = () => {
           className="overflow-x-auto w-full h-full pb-10">
 
           <img src={bookImage} alt={book?.title} className="w-[80%] mx-auto mt-2 rounded-2xl" />
-          <p className="text-[22px] font-semibold mt-7.5">{book?.title}</p>
-          <div className="flex flex-wrap gap-1 text-lg font-medium text-descColor mt-4">
-            <p>Authors: </p>
-            {book?.authors.map((author: Author, index) => (
-              <p>{author.name}{authorsLength === index + 1 ? "." : ","}</p>
-            ))}
+          <p className="text-[22px] font-semibold mt-10">{book?.title}</p>
+          <div className="flex items-end gap-1 text-lg font-medium text-descColor mt-4">
+            <p>Authors</p>
+            <div className="border-t border-descColor/70 border-dashed w-full mb-2" />
+            <div>
+              {book?.authors.map((author: Author, index) => (
+                <div key={author.id} className="w-max">{author.name}{authorsLength === index + 1 ? "." : ","}</div>
+              ))}
+            </div>
           </div>
-          <p className="text-lg font-medium text-descColor mt-4">Rating: <span>{formatRating(book?.rating?.average || 0)}</span></p>
-          <div className="bg-descColor/7 p-4 mt-5 rounded-2xl">
-            <p className="text-xl font-medium text-descColor">About the book:</p>
+          <div className="flex items-end gap-1 text-lg font-medium text-descColor mt-2">
+            <span>Rating</span>
+            <div className="border-t border-descColor/70 border-dashed w-full mb-2" />
+            <div className="flex items-center gap-2">
+              {/* <RatingStars rating={7.5} /> */}
+              <span>{formattedRating}</span>
+            </div>
+          </div>
+
+          <div className="bg-descColor/7 p-4 mt-5 rounded-2xl text-descColor">
+            <p className="text-xl font-medium">About the book:</p>
             <p className="mt-3">{book?.description}</p>
           </div>
         </div>
