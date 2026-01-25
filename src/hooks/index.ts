@@ -4,3 +4,4 @@ export * from "./useFormatRating"
 export * from "./useMightLikeBooks"
 export * from "./usePopularBooks"
 export * from "./useGenreBooks"
+export * from './useBookDetail'

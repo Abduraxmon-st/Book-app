@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import useStore from "../../context/store";
-import { book } from "../../data/books";
+import { formatRating, useGetBookDetail } from "../../hooks";
+import type { Author } from "../../types";
 
 export const BookDetailSheet = () => {
-  const bookDet = book
+  const { bookId, resetBookId } = useStore()
+  const { data: book, isLoading } = useGetBookDetail({ id: bookId || null })
   const bookImage = book?.image ? book.image : "/cover_book.png";
   const wrapperRef = useRef<HTMLDivElement | null>(null)
-  const { bookId, resetBookId } = useStore()
   const [offsetY, setOffsetY] = useState(0);
   const startY = useRef<number | null>(null);
   const isDragging = useRef(false);
   const [isAnimating, setIsAnimating] = useState(true);
   const contentRef = useRef<HTMLDivElement | null>(null);
-
+  const authorsLength = book?.authors?.length
   // close outside
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -75,35 +76,49 @@ export const BookDetailSheet = () => {
     }
   };
 
-  if (bookDet) {
+  if (bookId) {
     document.body.style.overflow = 'hidden';
   } else {
     document.body.style.overflow = 'auto';
   }
-  return (
-    <div ref={wrapperRef}
-      style={{ transform: `translate(0, ${offsetY}px)` }}
-      className={`fixed left-0 top-0 inset-0 bg-white text-mainColor z-50 p-4 pt-0! ${!!bookId ? 'translate-y-18 shadow-[0px_-4px_31px_0px_#00000070]' : 'translate-y-[110%] shadow-[0px_0px_0px_0px_#00000000]'} ${isAnimating ? "transition-transform duration-300 ease-out" : ""} rounded-4xl`}>
-      {/* <button onClick={() => resetBookId()}
-        className="p-1.5 bg-mainColor text-white rounded-full">
-        <ArrowRightIcon className="size-7 rotate-180" />
-      </button> */}
-      <div
-        onTouchStart={(e) => handleStart(e.touches[0].clientY)}
-        onTouchMove={(e) => handleMove(e.touches[0].clientY)}
-        onTouchEnd={handleEnd}
-        className="py-4 flex justify-center">
-        <div className="w-15 h-2 bg-descColor/50 rounded-full"></div>
-      </div>
-      <div
-        ref={contentRef}
-        onScroll={handleContentScroll}
-        style={{ scrollbarWidth: "none" }}
-        className="overflow-x-auto w-full h-full">
 
-        <img src={bookImage} alt={bookDet?.title} className="w-[80%] mx-auto mt-2 rounded-2xl" />
-        <div className="h-screen"></div>
+  if (isLoading) {
+    return
+  }
+
+  if (!isLoading) {
+    return (
+      <div ref={wrapperRef}
+        style={{ transform: `translate(0, ${offsetY}px)` }}
+        className={`fixed left-0 top-0 inset-0 bg-white text-mainColor z-50 p-4 pt-0! ${!!bookId ? 'translate-y-18 shadow-[0px_-4px_31px_0px_#00000070]' : 'translate-y-[110%] shadow-[0px_0px_0px_0px_#00000000]'} ${isAnimating ? "transition-transform duration-300 ease-out" : ""} rounded-t-4xl`}>
+        <div
+          onTouchStart={(e) => handleStart(e.touches[0].clientY)}
+          onTouchMove={(e) => handleMove(e.touches[0].clientY)}
+          onTouchEnd={handleEnd}
+          className="py-4 flex justify-center">
+          <div className="w-15 h-2 bg-descColor/50 rounded-full"></div>
+        </div>
+        <div
+          ref={contentRef}
+          onScroll={handleContentScroll}
+          style={{ scrollbarWidth: "none" }}
+          className="overflow-x-auto w-full h-full pb-10">
+
+          <img src={bookImage} alt={book?.title} className="w-[80%] mx-auto mt-2 rounded-2xl" />
+          <p className="text-[22px] font-semibold mt-7.5">{book?.title}</p>
+          <div className="flex flex-wrap gap-1 text-lg font-medium text-descColor mt-4">
+            <p>Authors: </p>
+            {book?.authors.map((author: Author, index) => (
+              <p>{author.name}{authorsLength === index + 1 ? "." : ","}</p>
+            ))}
+          </div>
+          <p className="text-lg font-medium text-descColor mt-4">Rating: <span>{formatRating(book?.rating?.average || 0)}</span></p>
+          <div className="bg-descColor/7 p-4 mt-5 rounded-2xl">
+            <p className="text-xl font-medium text-descColor">About the book:</p>
+            <p className="mt-3">{book?.description}</p>
+          </div>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }

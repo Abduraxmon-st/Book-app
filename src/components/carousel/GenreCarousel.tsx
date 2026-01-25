@@ -5,7 +5,7 @@ import { ArrowRightIcon } from "../../assets/icons"
 import { useGetGenreBooks } from "../../hooks"
 
 export const GenreCarousel = ({ setGenre, genre }: { setGenre: (genre: string) => void; genre: string }) => {
-  const { data: books, isLoading } = useGetGenreBooks(genre, setGenre);
+  const { data: books, isLoading } = useGetGenreBooks(genre, setGenre );
   return (
     <Swiper
       spaceBetween={16}
