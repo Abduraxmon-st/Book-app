@@ -95,7 +95,7 @@ export const BookDetailSheet = () => {
             <BookDetailSkelet />
           ) : (
             <>
-              <img src={bookImage} alt={book?.title} className="w-[80%] mx-auto mt-2 rounded-2xl" />
+              <img src={bookImage} alt={book?.title} className="w-[80%] min-h-[40%] max-h-[56%] mx-auto mt-2 rounded-2xl" />
               <p className="text-[22px] font-semibold mt-10">{book?.title}</p>
               {subtitleBook && <p className="text-sm font-medium text-descColor/50">{subtitleBook}</p>}
               {
