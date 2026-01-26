@@ -6,7 +6,6 @@ import { NotFoundPage } from "./components/not-found";
 
 const HomePage = lazy(() => import('./pages/home').then(module => ({ default: module.HomePage })));
 const CategoryPage = lazy(() => import('./pages/category').then(module => ({ default: module.CategoryPage })));
-const SlugPage = lazy(() => import('./pages/slug').then(module => ({ default: module.SlugPage })));
 const FavouritesPage = lazy(() => import('./pages/favourites').then(module => ({ default: module.FavouritesPage })));
 
 const withSuspense = (el: JSX.Element) => (
@@ -25,10 +24,6 @@ export const router = createBrowserRouter([
       {
         path: "/categories",
         element: withSuspense(<CategoryPage />),
-      },
-      {
-        path: "/books/:slug",
-        element: withSuspense(<SlugPage />),
       },
       {
         path: "/favourites",

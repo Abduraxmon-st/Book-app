@@ -20,6 +20,8 @@ export const useGetMightLikeBooks = () => {
     queryKey: ["might-like-books"],
     staleTime: 1000 * 60 * 60, // 1 hour
     retry: 1,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       // let lastError: unknown;
 

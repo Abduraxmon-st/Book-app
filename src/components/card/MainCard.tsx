@@ -1,6 +1,6 @@
 import useStore from "../../context/store";
 import type { Book } from "../../types";
-import { HeaderSkelet } from "../skelet/HeaderSkelet";
+import { HeaderSkelet } from "../skelet";
 
 type MainCardProps = {
   key?: number;

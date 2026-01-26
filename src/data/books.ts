@@ -95,6 +95,7 @@ export const book = {
   "id": 16384516,
   "title": "Harry Potter and the Goblet of Fire",
   "image": "https://covers.openlibrary.org/b/id/12775900-M.jpg",
+  "subtitle": "Harry in gary",
   "identifiers": {
     "open_library_id": "OL82577W",
     "isbn_10": "0439139597",

@@ -28,6 +28,8 @@ export const useGetGenreBooks = (
     queryKey: ["genre-books", genre],
     staleTime: 1000 * 60 * 60,
     retry: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
 
     queryFn: async () => {
       for (const api of SEARCH_APIS) {
@@ -83,4 +85,3 @@ export const useGetGenreBooks = (
 
   return query;
 };
-  

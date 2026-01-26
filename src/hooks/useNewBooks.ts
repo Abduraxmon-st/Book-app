@@ -20,6 +20,8 @@ export const useGetNewBooks = () => {
     queryKey: ["new-books"],
     retry: 1,
     staleTime: 1000 * 60 * 60, // 1 hour
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       // let lastError: unknown;
 
@@ -54,8 +56,8 @@ export const useGetNewBooks = () => {
       // );
 
       // throw lastError;
-            return books
-      
+      return books
+
     },
   });
 };

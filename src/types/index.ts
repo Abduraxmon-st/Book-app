@@ -19,6 +19,7 @@ export type Book = {
 export type BookDetail = {
   id: number,
   title: string,
+  subtitle?: string,
   image?: string,
   identifiers?: {
     open_library_id: string,

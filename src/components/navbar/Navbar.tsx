@@ -4,6 +4,11 @@ import { Link } from "react-router-dom"
 
 export const Navbar = () => {
   const [isSearching, setIsSearching] = useState(false)
+
+  if (isSearching) {
+    document.body.style.overflow = "hidden"
+  } else document.body.style.overflow = "auto"
+  
   return (
     <header>
       <nav className="relative z-2 bg-mainColor border-0">

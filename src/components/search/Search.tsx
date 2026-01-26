@@ -36,19 +36,13 @@ export const Search = ({ isSearching, setIsSearching }: SearchProps) => {
     }
   }, [])
 
-  if (istyped.length > 0) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
-
   return (
     <div ref={wrapperRef}>
       <div className={`absolute bottom-5 right-5 flex justify-end rounded-2xl pl-0 pr-0 translate-x-0 ${isSearching && "w-[calc(100%-2rem)] bottom-2.5! right-4! bg-white pl-3 pr-2.5 h-13"} transition-all duration-400 ease-in-out w-7.5 h-7.5`}>
         {isSearching && (
           <input
             value={istyped}
-            onFocus={() => setIsSearching(true)}
+            onFocus={() => {setIsSearching(true)}}
             onChange={(e) => setIsTyped(e.target.value)}
             type="text"
             placeholder="Search..."
